@@ -1,36 +1,35 @@
-def add(x, y):
-    return x + y
+def calculate_change(amount):
+    coins = {'Half Dollar': 50, 'Quarter': 25, 'Dime': 10, 'Nickel': 5, 'Penny': 1}
+    change = {}
 
-def subtract(x, y):
-    return x - y
-
-def multiply(x, y):
-    return x * y
-
-def divide(x, y):
-    if y == 0:
-        return "Error! Division by zero."
-    return x / y
-
-def calculator():
-    num1 = float(input("Please enter the first number:\n"))
-    num2 = float(input("Please enter the second number:\n"))
-    operation = input("Please enter the function (+-*/):\n")
-    
-    result = 0
-    if operation == '+':
-        result = add(num1, num2)
-    elif operation == '-':
-        result = subtract(num1, num2)
-    elif operation == '*':
-        result = multiply(num1, num2)
-    elif operation == '/':
-        result = divide(num1, num2)
-    else:
-        print("Invalid operation entered!")
+    if amount < 1 or amount > 99:
+        print("Please enter a number between 1 and 99.")
         return
-    
-    print(f"\n>>Your result is {result}")
 
-# Call the calculator function to start the program
-calculator()
+    for coin_name, coin_value in coins.items():
+        while amount >= coin_value:
+            if coin_name in change:
+                change[coin_name] += 1
+            else:
+                change[coin_name] = 1
+            amount -= coin_value
+
+    output = ""
+    for coin_name, count in change.items():
+        if count == 1:
+            if coin_name == "Penny":
+                output += f"one {coin_name}, "
+            else:
+                output += f"one {coin_name} "
+        else:
+            if coin_name == "Penny":
+                output += f"{count} {coin_name}s, "
+            else:
+                output += f"{count} {coin_name}s "
+
+    output = output.rstrip(", ")
+    print("You have " + output + ".")
+
+# Example usage
+amount = int(input("Enter the amount (between 1 and 99): "))
+calculate_change(amount)
